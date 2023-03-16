@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mlond\\source\\repos\\LibraryManagementSystem\\LibraryManagementSystem.csproj",
+      "projectUniqueName": "C:\\Users\\mlond\\Desktop\\LibraryManagementSystem\\LibraryManagementSystem.csproj",
       "projectName": "LibraryManagementSystem",
-      "projectPath": "C:\\Users\\mlond\\source\\repos\\LibraryManagementSystem\\LibraryManagementSystem.csproj",
+      "projectPath": "C:\\Users\\mlond\\Desktop\\LibraryManagementSystem\\LibraryManagementSystem.csproj",
       "packagesPath": "C:\\Users\\mlond\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mlond\\source\\repos\\LibraryManagementSystem\\obj\\",
+      "outputPath": "C:\\Users\\mlond\\Desktop\\LibraryManagementSystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mlond\\AppData\\Roaming\\NuGet\\NuGet.Config",
