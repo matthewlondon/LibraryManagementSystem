@@ -9,7 +9,7 @@
             while (true)
             {
                 Prompt();
-               int input = ValidInt(Console.ReadLine());
+                int input = ValidInt(Console.ReadLine());
 
                 switch (input)
                 {
@@ -32,8 +32,8 @@
                         Console.WriteLine("Enter 2 to sort by author");
                         Console.WriteLine("Enter 3 to sort by publication year");
                         input = ValidInt(Console.ReadLine());
-                        switch(input)
-                        { 
+                        switch (input)
+                        {
                             case 1:
                                 Console.WriteLine("Listed Book(s)");
                                 var sortedByTitle = Books.SortByTitle(Library);
@@ -53,9 +53,6 @@
                                     Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
                                 break;
                         }
-
-                        //foreach (Books book in Library)
-                        //    Console.WriteLine($"{book.Title} by {book.Author} : {book.YearPublished}");
                         break;
 
                     case 5:
