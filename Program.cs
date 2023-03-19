@@ -4,8 +4,9 @@
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to your Personal Library Management System.");
             var Library = new List<Books>();
+            FindLibrary(Library);
+            Console.WriteLine("Welcome to your Personal Library Management System.");
             while (true)
             {
                 Prompt();
@@ -22,40 +23,16 @@
                         break;
 
                     case 3:
-                        Console.WriteLine("Check book Progress");
+                        Console.WriteLine("");
                         foreach (Books book in Library)
                             Console.WriteLine($"{book.Title} : {book.Progress}% complete");
                         break;
 
                     case 4:
-                        Console.WriteLine("Enter 1 to sort by title");
-                        Console.WriteLine("Enter 2 to sort by author");
-                        Console.WriteLine("Enter 3 to sort by publication year");
-                        input = ValidInt(Console.ReadLine());
-                        switch (input)
-                        {
-                            case 1:
-                                Console.WriteLine("Listed Book(s)");
-                                var sortedByTitle = Books.SortByTitle(Library);
-                                foreach (var book in sortedByTitle)
-                                    Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
-                                break;
-                            case 2:
-                                Console.WriteLine("Listed Book(s)");
-                                var sortedByAuthor = Books.SortByAuthor(Library);
-                                foreach (var book in sortedByAuthor)
-                                    Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
-                                break;
-                            case 3:
-                                Console.WriteLine("Listed Book(s)");
-                                var sortedByYear = Books.SortByYear(Library);
-                                foreach (var book in sortedByYear)
-                                    Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
-                                break;
-                        }
+                        SortBook(Library);
                         break;
-
                     case 5:
+                        SaveLibrary(Library);
                         Console.WriteLine("Exiting the program");
                         return;
 
@@ -94,6 +71,7 @@
 
         public static void AddBook(List<Books> Library)
         {
+            Console.WriteLine("");
             Console.WriteLine("How many books would you like to add? ");
             var numberOfBooks = ValidInt(Console.ReadLine());
 
@@ -138,6 +116,7 @@
         {
             if (Library.Count == 0)
             {
+                Console.WriteLine("");
                 Console.WriteLine("Your library is empty.");
                 return;
             }
@@ -153,6 +132,76 @@
             else
             {
                 Console.WriteLine($"'{bookTitleToRemove}' not found in the library.");
+            }
+        }
+
+        public static void SortBook(List<Books> Library)
+        {
+            if (Library.Count == 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Your library is empty.");
+                return;
+            }
+            Console.WriteLine("Enter 1 to sort by title");
+            Console.WriteLine("Enter 2 to sort by author");
+            Console.WriteLine("Enter 3 to sort by publication year");
+            var input = ValidInt(Console.ReadLine());
+            switch (input)
+            {
+                case 1:
+                    Console.WriteLine("");
+                    var sortedByTitle = Books.SortByTitle(Library);
+                    foreach (var book in sortedByTitle)
+                        Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
+                    break;
+                case 2:
+                    Console.WriteLine("");
+                    var sortedByAuthor = Books.SortByAuthor(Library);
+                    foreach (var book in sortedByAuthor)
+                        Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
+                    break;
+                case 3:
+                    Console.WriteLine("");
+                    var sortedByYear = Books.SortByYear(Library);
+                    foreach (var book in sortedByYear)
+                        Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
+                    break;
+            }
+        }
+
+        public static void FindLibrary(List<Books> Library)
+        {
+            if (File.Exists("library.txt"))
+            {
+                // Read the file contents
+                string[] lines = File.ReadAllLines("library.txt");
+
+                // Loop through the lines and create Book objects
+                foreach (string line in lines)
+                {
+                    string[] details = line.Split(',');
+                    Books book = new()
+                    {
+                        Title = details[0],
+                        Author = details[1],
+                        YearPublished = int.Parse(details[2]),
+                        MaxPage = int.Parse(details[3]),
+                        CurrentPage = int.Parse(details[4]),
+                        Progress = int.Parse(details[5])
+                    };
+                    Library.Add(book);
+                }
+            }
+
+        }
+
+        public static void SaveLibrary(List<Books> Library)
+        {
+            using StreamWriter writer = new("library.txt");
+            foreach (Books book in Library)
+            {
+                writer.WriteLine($"{book.Title},{book.Author},{book.YearPublished},{book.MaxPage},{book.CurrentPage},{book.Progress}");
             }
         }
     }
