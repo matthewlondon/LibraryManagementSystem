@@ -6,11 +6,10 @@
         {
             Console.WriteLine("Welcome to your Personal Library Management System.");
             var Library = new List<Books>();
-            int input;
             while (true)
             {
                 Prompt();
-                input = ValidInt(Console.ReadLine());
+               int input = ValidInt(Console.ReadLine());
 
                 switch (input)
                 {
@@ -29,9 +28,34 @@
                         break;
 
                     case 4:
-                        Console.WriteLine("Listed Book(s)");
-                        foreach (Books book in Library)
-                            Console.WriteLine($"{book.Title} by {book.Author} : {book.YearPublished}");
+                        Console.WriteLine("Enter 1 to sort by title");
+                        Console.WriteLine("Enter 2 to sort by author");
+                        Console.WriteLine("Enter 3 to sort by publication year");
+                        input = ValidInt(Console.ReadLine());
+                        switch(input)
+                        { 
+                            case 1:
+                                Console.WriteLine("Listed Book(s)");
+                                var sortedByTitle = Books.SortByTitle(Library);
+                                foreach (var book in sortedByTitle)
+                                    Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
+                                break;
+                            case 2:
+                                Console.WriteLine("Listed Book(s)");
+                                var sortedByAuthor = Books.SortByAuthor(Library);
+                                foreach (var book in sortedByAuthor)
+                                    Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
+                                break;
+                            case 3:
+                                Console.WriteLine("Listed Book(s)");
+                                var sortedByYear = Books.SortByYear(Library);
+                                foreach (var book in sortedByYear)
+                                    Console.WriteLine($"{book.Title} by {book.Author} in {book.YearPublished}");
+                                break;
+                        }
+
+                        //foreach (Books book in Library)
+                        //    Console.WriteLine($"{book.Title} by {book.Author} : {book.YearPublished}");
                         break;
 
                     case 5:
