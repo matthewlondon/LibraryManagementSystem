@@ -1,90 +1,37 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace LibraryManagementSystem
+﻿namespace LibraryManagementSystem
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to your Personal Library Management System.");
-            var recordList = new List<Book>();
+            var Library = new List<Books>();
             int input;
             while (true)
             {
                 Prompt();
-                var choiceString = Console.ReadLine();
-                while (!int.TryParse(choiceString, out input))
-                {
-                    Console.WriteLine("Please enter a valid option.");
-                    choiceString = Console.ReadLine();
-                }
+                input = ValidInt(Console.ReadLine());
 
                 switch (input)
                 {
                     case 1:
-                        //need to verify input is only int
-                        Console.WriteLine("How many books would you like to add? ");
-                        var numberOfBooks = int.Parse(Console.ReadLine());
-
-                        for (int i = 0; i < numberOfBooks; i++)
-                        {
-                            Book book = new Book();
-
-                            Console.WriteLine("");
-                            Console.WriteLine("What is the title?");
-                            book.title = Console.ReadLine();
-
-                            Console.WriteLine("What is the author's name?");
-                            string choice = Console.ReadLine();
-                            book.author = ValidAuthor(choice);
-
-                            Console.WriteLine("What year was the book published");
-                            choice = Console.ReadLine();
-                            book.yearPublished = ValidYear(choice);
-
-                            Console.WriteLine("How many pages is the book?");
-                            choice = Console.ReadLine();
-                            book.maxPage = ValidPageCount(choice);
-
-                            //Need to ensure current page does not exceed max page
-                            Console.WriteLine("What page are you on?");
-                            choice = Console.ReadLine();
-                            book.currentPage = ValidPageCount(choice);
-                            
-                            book.progress = (Decimal.ToDouble(book.currentPage) / Decimal.ToDouble(book.maxPage) * 100);
-                            
-                            recordList.Add(book);
-                            
-                        }
-                        Console.WriteLine($"You added {numberOfBooks} book(s)");
+                        AddBook(Library);
                         break;
 
                     case 2:
-                        Console.WriteLine("Enter the title of the book to be removed:");
-                        var bookTitleToRemove = Console.ReadLine();
-                            var bookToRemove = recordList.FirstOrDefault(book => book.title == bookTitleToRemove);
-
-                            if (bookToRemove != null)
-                            {
-                                recordList.Remove(bookToRemove);
-                                Console.WriteLine($"Book '{bookTitleToRemove}' removed successfully.");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Book '{bookTitleToRemove}' not found in the library.");
-                            }
+                        RemoveBook(Library);
                         break;
 
                     case 3:
                         Console.WriteLine("Check book Progress");
-                        foreach (Book book in recordList)
-                            Console.WriteLine($"{book.title} : {book.progress}% complete");
+                        foreach (Books book in Library)
+                            Console.WriteLine($"{book.Title} : {book.Progress}% complete");
                         break;
 
                     case 4:
                         Console.WriteLine("Listed Book(s)");
-                        foreach (Book book in recordList)
-                        Console.WriteLine($"{book.title} by {book.author} in {book.yearPublished} : {book.progress}% complete");
+                        foreach (Books book in Library)
+                            Console.WriteLine($"{book.Title} by {book.Author} : {book.YearPublished}");
                         break;
 
                     case 5:
@@ -106,31 +53,13 @@ namespace LibraryManagementSystem
             Console.WriteLine("3 Check progress on all books");
             Console.WriteLine("4 List the book(s) in your library");
             Console.WriteLine("5 to exit");
+            Console.WriteLine("");
         }
-
-        public static string ValidAuthor(string choice)
-        {
-
-            while(true)
-            {
-                if(!String.IsNullOrEmpty(choice) && choice.All(Char.IsLetter))
-                {
-                    return choice;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input, please try again.");
-                    choice = Console.ReadLine();
-
-                }
-            }
-        }
-
-        public static int ValidYear(string choice)
+        public static int ValidInt(string choice)
         {
             while (true)
             {
-                if (int.TryParse(choice, out int year) && year > 0 && year <= 2023)
+                if (int.TryParse(choice, out int year))
                 {
                     return year;
                 }
@@ -142,19 +71,67 @@ namespace LibraryManagementSystem
             }
         }
 
-        public static int ValidPageCount(string choice)
+        public static void AddBook(List<Books> Library)
         {
-            while (true)
+            Console.WriteLine("How many books would you like to add? ");
+            var numberOfBooks = ValidInt(Console.ReadLine());
+
+            for (int i = 0; i < numberOfBooks; i++)
             {
-                if (int.TryParse(choice, out int validInt) && validInt >= 0)
+                Books book = new();
+
+                Console.WriteLine("");
+                Console.WriteLine("What is the title?");
+                book.Title = Console.ReadLine();
+
+                Console.WriteLine("What is the author's name?");
+                string choice = Console.ReadLine();
+                book.Author = Books.ValidAuthor(choice);
+
+                Console.WriteLine("What year was the book published");
+                choice = Console.ReadLine();
+                book.YearPublished = Books.ValidYear(choice);
+
+                Console.WriteLine("How many pages is the book?");
+                choice = Console.ReadLine();
+                book.MaxPage = Books.ValidPageCount(choice);
+
+                Console.WriteLine("What page are you on?");
+                choice = Console.ReadLine();
+                book.CurrentPage = Books.ValidPageCount(choice);
+                while (book.CurrentPage > book.MaxPage)
                 {
-                    return validInt;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input, please try again");
+                    Console.WriteLine("What page are you on?");
                     choice = Console.ReadLine();
+                    book.CurrentPage = Books.ValidPageCount(choice);
                 }
+                book.Progress = Math.Round((Decimal.ToDouble(book.CurrentPage) / Decimal.ToDouble(book.MaxPage) * 100), 0);
+
+                Library.Add(book);
+
+            }
+            Console.WriteLine($"You added {numberOfBooks} book(s)");
+        }
+
+        public static void RemoveBook(List<Books> Library)
+        {
+            if (Library.Count == 0)
+            {
+                Console.WriteLine("Your library is empty.");
+                return;
+            }
+            Console.WriteLine("Enter the title of the book to be removed:");
+            var bookTitleToRemove = Console.ReadLine();
+            var bookToRemove = Library.FirstOrDefault(book => book.Title == bookTitleToRemove);
+
+            if (bookToRemove != null)
+            {
+                Library.Remove(bookToRemove);
+                Console.WriteLine($"Book '{bookTitleToRemove}' removed successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"'{bookTitleToRemove}' not found in the library.");
             }
         }
     }
