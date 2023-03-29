@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystem", "LibraryManagementSystem.csproj", "{2E814EEC-8758-413F-B163-8E5DF66E0F5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystem", "LibraryManagementSystem.csproj", "{2E814EEC-8758-413F-B163-8E5DF66E0F5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A194F973-23D9-4C93-B8B7-0BC56F2B7780}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystemTest", "..\Test\LibraryManagementSystemTest\LibraryManagementSystemTest.csproj", "{8930F1DC-983D-4118-A720-471C2B4194DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{5BCE07E9-E58C-4C83-A1ED-7A3CFD5E9CAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,16 @@ Global
 		{2E814EEC-8758-413F-B163-8E5DF66E0F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E814EEC-8758-413F-B163-8E5DF66E0F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E814EEC-8758-413F-B163-8E5DF66E0F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8930F1DC-983D-4118-A720-471C2B4194DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8930F1DC-983D-4118-A720-471C2B4194DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8930F1DC-983D-4118-A720-471C2B4194DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8930F1DC-983D-4118-A720-471C2B4194DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8930F1DC-983D-4118-A720-471C2B4194DB} = {A194F973-23D9-4C93-B8B7-0BC56F2B7780}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD0CD5CA-7057-41C5-B08F-3E9B1BDF98F9}
