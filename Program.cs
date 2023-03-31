@@ -79,7 +79,6 @@
             {
                 Books book = new();
 
-                //TODO enter new method here to wrap book.Title
                 Console.WriteLine("");
                 Console.WriteLine("What is the title?");
                 book.Title = Console.ReadLine().ToLower();
@@ -173,9 +172,9 @@
 
         public static void FindLibrary(List<Books> Library)
         {
-            if (File.Exists(@"Assets\library.txt"))
+            if (File.Exists("library.txt"))
             {
-                string[] lines = File.ReadAllLines(@"Assets\library.txt");
+                string[] lines = File.ReadAllLines("library.txt");
 
                 foreach (string line in lines)
                 {
@@ -197,17 +196,11 @@
 
         public static void SaveLibrary(List<Books> Library)
         {
-            using StreamWriter writer = new(@"Assets\library.txt");
+            using StreamWriter writer = new("library.txt");
             foreach (Books book in Library)
             {
                 writer.WriteLine($"{book.Title},{book.Author},{book.YearPublished},{book.MaxPage},{book.CurrentPage},{book.Progress}");
             }
-        }
-
-        //TODO add method to check if user is entering a duplicate title and throw an error if so, else book.title can be assigned
-        public static bool BookIsNew(List<Books> Library, string choice)
-        {
-            return true;
         }
     }
 }
