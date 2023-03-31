@@ -7,9 +7,12 @@
             var Library = new List<Books>();
             FindLibrary(Library);
             Console.WriteLine("Welcome to your Personal Library Management System.");
+
+            //start master loop
             while (true)
             {
                 Prompt();
+                
                 int input = ValidInt(Console.ReadLine());
 
                 switch (input)
@@ -23,6 +26,7 @@
                         break;
 
                     case 3:
+                        //print a list of all books with their respective progress level
                         Console.WriteLine("");
                         foreach (Books book in Library)
                             Console.WriteLine($"{book.Title} : {book.Progress}% complete");
@@ -53,6 +57,9 @@
             Console.WriteLine("5 to exit");
             Console.WriteLine("");
         }
+
+        //Tries to parse input string as int, returns if true and reprompts if else.
+        //this method is called several times when retrieving user input
         public static int ValidInt(string choice)
         {
             while (true)
@@ -75,6 +82,8 @@
             Console.WriteLine("How many books would you like to add? ");
             var numberOfBooks = ValidInt(Console.ReadLine());
 
+            //Where the user enters all properties of the book they're adding, several helper methods to 
+            //validate input
             for (int i = 0; i < numberOfBooks; i++)
             {
                 Books book = new();
@@ -98,22 +107,30 @@
                 Console.WriteLine("What page are you on?");
                 choice = Console.ReadLine();
                 book.CurrentPage = Books.ValidPageCount(choice);
+
+                //Ensures that user does not enter a current page that is larger than the total
+                //number of pages in the book.
                 while (book.CurrentPage > book.MaxPage)
                 {
                     Console.WriteLine("What page are you on?");
                     choice = Console.ReadLine();
                     book.CurrentPage = Books.ValidPageCount(choice);
                 }
+
+                //current page divided by max page and rounded to the nearest whole number for easier handling
                 book.Progress = Math.Round((Decimal.ToDouble(book.CurrentPage) / Decimal.ToDouble(book.MaxPage) * 100), 0);
 
                 Library.Add(book);
 
             }
+
+            //lets the user know the number of books entered after each batch of book entries
             Console.WriteLine($"You added {numberOfBooks} book(s)");
         }
 
         public static void RemoveBook(List<Books> Library)
         {
+            //library is empty if the collection has no data, otherwise continue logic of RemoveBook
             if (Library.Count == 0)
             {
                 Console.WriteLine("");
@@ -121,7 +138,11 @@
                 return;
             }
             Console.WriteLine("Enter the title of the book to be removed:");
-            var bookTitleToRemove = Console.ReadLine();
+
+            //tolower the input to standardize validation
+            var bookTitleToRemove = Console.ReadLine().ToLower();
+
+            //check if bookTitleToRemove matches any book.Title in book and remove that instance
             var bookToRemove = Library.FirstOrDefault(book => book.Title == bookTitleToRemove);
 
             if (bookToRemove == null)
@@ -170,6 +191,8 @@
             }
         }
 
+        //Checks for existence of library.txt, first time users will not have this file and it
+        //will be created upon exit with method call to SaveLibrary
         public static void FindLibrary(List<Books> Library)
         {
             if (File.Exists("library.txt"))
@@ -196,6 +219,8 @@
 
         public static void SaveLibrary(List<Books> Library)
         {
+            //write all entries to library.txt, next time user opend console application their entries
+            //will populate the library and upon will create new library.txt with all entries
             using StreamWriter writer = new("library.txt");
             foreach (Books book in Library)
             {

@@ -8,7 +8,7 @@ public class Media : Program
 
     public static string ValidAuthor(string choice)
     {
-
+        //excludes all input that are not chars or whitespace
         while (true)
         {
             if (!String.IsNullOrEmpty(choice) && choice.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
@@ -25,6 +25,8 @@ public class Media : Program
     }
     public static int ValidYear(string choice)
     {
+        //Ensures input is greater than 0 and less than or equal to current year, only accepting 4-digit ints within
+        //those paramteres
         while (true)
         {
             if (int.TryParse(choice, out int year) && year > 0 && year <= 2023)
@@ -38,6 +40,9 @@ public class Media : Program
             }
         }
     }
+
+    //each method below creates list ordered by title, author, or year using lambda expression,
+    //only called once in response to user input on case 4 of main switch statement
     public static List<Books> SortByTitle(List<Books> book)
     {
         return book.OrderBy(b => b.Title).ToList();

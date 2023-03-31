@@ -7,6 +7,8 @@
         public int CurrentPage { get; set; }
         public double Progress { get; set; }
 
+        //This is similar to ValidInt, only difference being additional constraint that 
+        //page count must be greater than or equal to 0
         public static int ValidPageCount(string choice)
         {
             while (true)
